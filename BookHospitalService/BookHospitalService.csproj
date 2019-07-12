@@ -195,14 +195,45 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CompleteProfileController.cs" />
+    <Compile Include="Controllers\DoctorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PatientController.cs" />
+    <Compile Include="Controllers\ProcedureController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201907102213371_InitialCreate.cs" />
+    <Compile Include="Migrations\201907102213371_InitialCreate.Designer.cs">
+      <DependentUpon>201907102213371_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907102220203_BookingModel.CreatedAt.cs" />
+    <Compile Include="Migrations\201907102220203_BookingModel.CreatedAt.Designer.cs">
+      <DependentUpon>201907102220203_BookingModel.CreatedAt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907111906152_Doctor.Category.cs" />
+    <Compile Include="Migrations\201907111906152_Doctor.Category.Designer.cs">
+      <DependentUpon>201907111906152_Doctor.Category.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907112020377_ApplicationUser.ProfileComplete.cs" />
+    <Compile Include="Migrations\201907112020377_ApplicationUser.ProfileComplete.Designer.cs">
+      <DependentUpon>201907112020377_ApplicationUser.ProfileComplete.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907112056383_ApplicationUser.UserRole.cs" />
+    <Compile Include="Migrations\201907112056383_ApplicationUser.UserRole.Designer.cs">
+      <DependentUpon>201907112056383_ApplicationUser.UserRole.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AvailabilityModel.cs" />
+    <Compile Include="Models\BookingModel.cs" />
+    <Compile Include="Models\DoctorModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\PatientModel.cs" />
+    <Compile Include="Models\ProcedureModel.cs" />
+    <Compile Include="Models\UserRolesConstantMoldel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -263,6 +294,24 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Patient\Create.cshtml" />
+    <Content Include="Views\Patient\Delete.cshtml" />
+    <Content Include="Views\Patient\Details.cshtml" />
+    <Content Include="Views\Patient\Edit.cshtml" />
+    <Content Include="Views\Patient\Index.cshtml" />
+    <Content Include="Views\Procedure\Create.cshtml" />
+    <Content Include="Views\Procedure\Delete.cshtml" />
+    <Content Include="Views\Procedure\Details.cshtml" />
+    <Content Include="Views\Procedure\Edit.cshtml" />
+    <Content Include="Views\Procedure\Index.cshtml" />
+    <Content Include="Views\CompleteProfile\Index.cshtml" />
+    <Content Include="Views\Doctor\Create.cshtml" />
+    <Content Include="Views\Doctor\Delete.cshtml" />
+    <Content Include="Views\Doctor\Details.cshtml" />
+    <Content Include="Views\Doctor\Edit.cshtml" />
+    <Content Include="Views\Doctor\Index.cshtml" />
+    <Content Include="Views\CompleteProfile\Doctor.cshtml" />
+    <Content Include="Views\CompleteProfile\Patient.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -279,6 +328,23 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201907102213371_InitialCreate.resx">
+      <DependentUpon>201907102213371_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907102220203_BookingModel.CreatedAt.resx">
+      <DependentUpon>201907102220203_BookingModel.CreatedAt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907111906152_Doctor.Category.resx">
+      <DependentUpon>201907111906152_Doctor.Category.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907112020377_ApplicationUser.ProfileComplete.resx">
+      <DependentUpon>201907112020377_ApplicationUser.ProfileComplete.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907112056383_ApplicationUser.UserRole.resx">
+      <DependentUpon>201907112056383_ApplicationUser.UserRole.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

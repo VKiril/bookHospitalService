@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+@ViewBag.data
+
+<div class="row">
+    <div class="col-sm-2">
+        @Html.ActionLink("Doctor", "CompleteDoctor", new {role = "doctor"}, htmlAttributes: new { @class = " btn btn-success" })
+    </div>
+    <div class="col-sm-2">
+        @Html.ActionLink("Patient", "CompletePatient", new { role = "patient" }, htmlAttributes: new { @class = " btn btn-success" })
+    </div>
+</div>

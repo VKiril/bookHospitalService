@@ -22,8 +22,24 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li>
+                        <div class="dropdown show">
+                            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Menu
+                            </a>
+
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <div>
+                                    @Html.ActionLink("Procedure", "Create", "Procedure", new { area = "" }, new { @class = "btn btn-info" })
+                                </div>
+                                <div>
+                                    @Html.ActionLink("Doctor", "Create", "Doctor", new { area = "" }, new { @class = "btn btn-info" })
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
