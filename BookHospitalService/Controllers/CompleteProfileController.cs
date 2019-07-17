@@ -23,15 +23,6 @@ namespace BookHospitalService.Controllers
 
         public ActionResult CompletePatient()
         {
-            //var User = System.Web.HttpContext.Current.User;
-            //string currentUserId = User.Identity.GetUserId();
-
-            //ApplicationDbContext context = new ApplicationDbContext();
-            //var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
-            //IdentityRole role = roleManager.FindByName(UserRolesConstantMoldel.RolePatient);
-            //var userManager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            //userManager.AddToRole(currentUserId, role.Name);
-
             (new RoleManagerService()).SetRole(Request, UserRolesConstantMoldel.RolePatient);
 
             return RedirectToAction("Index", "Patient");
