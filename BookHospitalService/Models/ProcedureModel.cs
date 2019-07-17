@@ -15,7 +15,5 @@ namespace BookHospitalService.Models
 
         [Required]
         public string Details { get; set; }
-
-        public virtual DoctorModel Doctor { get; set; }
     }
 }

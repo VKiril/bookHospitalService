@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BookHospitalService.Models;
+using BookHospitalService.Services;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
@@ -22,24 +23,16 @@ namespace BookHospitalService.Controllers
 
         public ActionResult CompletePatient()
         {
-            var User = System.Web.HttpContext.Current.User;
-            string currentUserId = User.Identity.GetUserId();
-            //ApplicationUser currentUser = db.Users.FirstOrDefault(x => x.Id == currentUserId);
+            //var User = System.Web.HttpContext.Current.User;
+            //string currentUserId = User.Identity.GetUserId();
 
-            ApplicationDbContext context = new ApplicationDbContext();
-            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
-            IdentityRole role = roleManager.FindByName(UserRolesConstantMoldel.RolePatient);
+            //ApplicationDbContext context = new ApplicationDbContext();
+            //var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+            //IdentityRole role = roleManager.FindByName(UserRolesConstantMoldel.RolePatient);
+            //var userManager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            //userManager.AddToRole(currentUserId, role.Name);
 
-            //var userRole = new IdentityUserRole
-            //{
-            //    UserId = currentUser.Id,
-            //    RoleId = role.Id
-            //};
-
-            var userManager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            //currentUser.Roles.Add(userRole);
-
-            userManager.AddToRole(currentUserId, role.Name);
+            (new RoleManagerService()).SetRole(Request, UserRolesConstantMoldel.RolePatient);
 
             return RedirectToAction("Index", "Patient");
         }

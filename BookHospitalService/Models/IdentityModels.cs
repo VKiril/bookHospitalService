@@ -37,6 +37,10 @@ namespace BookHospitalService.Models
 
         public System.Data.Entity.DbSet<BookHospitalService.Models.ProcedureModel> ProcedureModels { get; set; }
 
+        public System.Data.Entity.DbSet<BookHospitalService.Models.AvailabilityModel> AvailabilityModels { get; set; }
+
         public System.Data.Entity.DbSet<BookHospitalService.Models.DoctorModel> DoctorModels { get; set; }
+
+        public System.Data.Entity.DbSet<BookHospitalService.Models.DoctorsAndProceduresModel> DoctorsAndProceduresModel { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Runtime.InteropServices;
 using System.Web;
 using System.Web.Mvc;
 using BookHospitalService.Models;
@@ -53,8 +54,12 @@ namespace BookHospitalService.Controllers
         {
             ViewBag.Procedures = db.ProcedureModels.ToList();
             ViewBag.Doctors = db.DoctorModels.ToList();
+            ViewBag.Intervals = (new AvailabitlityIntervalConstants()).AvailabilityList;
 
-            return View();
+            PatientViewModel patient = new PatientViewModel();
+
+
+            return View(patient);
         }
 
         // POST: Patient/Create
@@ -62,12 +67,41 @@ namespace BookHospitalService.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,FirstLastName,Email,Phone,Notices")] PatientModel patientModel)
+        public ActionResult Create(
+            [Bind(Include = "Doctor,Procedure,Date,Interval,FirstLastName,Email,Phone,Notices")]
+            PatientViewModel patientModel)
         {
             if (ModelState.IsValid)
             {
-                db.PatientModels.Add(patientModel);
+                var doctor = db.DoctorModels.Find(patientModel.Doctor);
+                var procedure = db.ProcedureModels.Find(patientModel.Procedure);
+
+                var availability = new AvailabilityModel()
+                {
+                    Doctor = doctor,
+                    Date = patientModel.Date,
+                    Interval = patientModel.Interval,
+                    Procedure = procedure
+                };
+
+                var booking = new BookingModel()
+                {
+                    CreatedAt = patientModel.Date,
+                    Availability = availability
+                };
+
+                var patient = new PatientModel()
+                {
+                    Email = patientModel.Email,
+                    FirstLastName = patientModel.FirstLastName,
+                    Phone = patientModel.Phone,
+                    Notices = patientModel.Notices,
+                    Booking = booking
+                };
+
+                db.PatientModels.Add(patient);
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
 

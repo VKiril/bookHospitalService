@@ -17,27 +17,24 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Hospital Serivce Booking", "Index", "Patient", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("Admin", "Index", "AdminPatients")</li>
                     <li>
-                        <div class="dropdown show">
                             <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Menu
                             </a>
 
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                 <div>
-                                    @Html.ActionLink("Procedure", "Create", "Procedure", new { area = "" }, new { @class = "btn btn-info" })
+                                    @Html.ActionLink("Procedure", "Create", "Procedure", new { area = "" }, new { @class = "btn btn-info btn-block" })
                                 </div>
                                 <div>
-                                    @Html.ActionLink("Doctor", "Create", "Doctor", new { area = "" }, new { @class = "btn btn-info" })
+                                    @Html.ActionLink("Doctor", "Create", "Doctor", new { area = "" }, new { @class = "btn btn-info btn-block" })
                                 </div>
                             </div>
-                        </div>
                     </li>
 
                 </ul>
@@ -56,5 +53,11 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+
+    <script type="text/javascript" src="@Url.Content("/Scripts/Main.js")"></script>
+    <script>
+        var GET_DOCTORS_BY_PROCEDURE  = "/api/APIDoctor/GetDoctorModelsByProcedure";
+        var GET_AVAILABILITY_INTERVAL = "/api/APIAvailability/CheckAvailability";
+    </script>
 </body>
 </html>

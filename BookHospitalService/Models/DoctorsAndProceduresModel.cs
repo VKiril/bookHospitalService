@@ -6,14 +6,14 @@ using System.Web;
 
 namespace BookHospitalService.Models
 {
-    public class BookingModel
+    public class DoctorsAndProceduresModel
     {
         public int Id { get; set; }
 
         [Required]
-        public virtual AvailabilityModel Availability { get; set; }
+        public virtual DoctorModel Doctor { get; set; }
 
-        [DataType(DataType.DateTime)]
-        public DateTime CreatedAt { get; set; }
+        [Required]
+        public virtual ProcedureModel Procedure { get; set; }
     }
 }

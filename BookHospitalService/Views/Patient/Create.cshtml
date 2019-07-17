@@ -1,35 +1,79 @@
-﻿@model BookHospitalService.Models.PatientModel
+﻿@model BookHospitalService.Models.PatientViewModel
 
 @{
     ViewBag.Title = "Create";
 }
 
 <h2>Create</h2>
-
 <div class="form-horizontal">
     <div class="form-group">
-        <select class="form-control">
-            <option value="0">Procedure</option>
-            @foreach (var procedure in @ViewBag.Procedures)
-            {
-                <option value="@procedure.Id">@procedure.Name</option>
-            }
-        </select>
+        <div class="control-label col-md-2">
+            Procedure
+        </div>
+        <div class="col-md-10">
+            <select class="form-control" id="select-patient-procedure">
+                <option value="0" class="form-control">Select Procedure</option>
+                @foreach (var procedure in @ViewBag.Procedures)
+                {
+                    <option value="@procedure.Id" class="form-control">@procedure.Name</option>
+                }
+            </select>
+        </div>
     </div>
     <div class="form-group">
-        <select class="form-control">
-            <option value="0">Procedure</option>
-            @foreach (var procedure in @ViewBag.Procedures)
-            {
-                <option value="@procedure.Id">@procedure.Name</option>
-            }
-        </select>
+        <div class="control-label col-md-2">
+            Doctor
+        </div>
+        <div class="col-md-10">
+            <select class="form-control" id="select-patient-doctor">
+                <option value="0" class="form-control">Select Doctor</option>
+                @foreach (var procedure in @ViewBag.Doctors)
+                {
+                    <option value="@procedure.Id" class="form-control">@procedure.Category</option>
+                }
+            </select>
+        </div>
+    </div>
+    
+    <div class="form-group create-patient">
+        @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.FirstLastName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Interval, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <select class="form-control" id="select-patient-interval">
+                <option value="0">Select Interval</option>
+                @foreach (var interval in @ViewBag.Intervals)
+                {
+                    if (interval.IsAvailable)
+                    {
+                        <option value="@interval.Id">@interval.Interval</option>
+                    }
+                    else
+                    {
+                        <option value="@interval.Id" disabled="disabled">@interval.Interval (reserved)</option>
+                    }
+                }
+            </select>
+        </div>
     </div>
 </div>
 
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
+
+    <div>
+        @Html.Hidden("Doctor")
+        @Html.Hidden("Procedure")
+        @Html.Hidden("Date", 0, htmlAttributes: new { @id = "patient-create-date"})
+        @Html.Hidden("Interval")
+    </div>
     
     <div class="form-horizontal">
         <h4>PatientModel</h4>

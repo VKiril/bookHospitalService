@@ -37,6 +37,15 @@ namespace BookHospitalService
                 };
                 roleManager.Create(role);
             }
+
+            if (!roleManager.RoleExists(UserRolesConstantMoldel.RoleAdmin))
+            {
+                var role = new IdentityRole
+                {
+                    Name = UserRolesConstantMoldel.RoleAdmin
+                };
+                roleManager.Create(role);
+            }
         }
     }
 }

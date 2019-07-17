@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using BookHospitalService.Models;
+using BookHospitalService.Services;
+using Microsoft.AspNet.Identity;
 
 namespace BookHospitalService.Controllers
 {
@@ -32,16 +34,64 @@ namespace BookHospitalService.Controllers
             {
                 return HttpNotFound();
             }
+
+            var doctorProcedures = db.DoctorsAndProceduresModel
+                .Where(d => d.Doctor.Id == doctorModel.Id)
+                .Select(d => d.Procedure)
+                .ToList();
+
+            var procedures = db.ProcedureModels.ToList();
+
+            foreach (var doctorsAndProcedures in doctorProcedures)
+            {
+                procedures.RemoveAll(p => doctorsAndProcedures.Id == p.Id);
+            }
+
+            ViewBag.SelectedProcedures = doctorProcedures;
+            ViewBag.AllProcedures = procedures;
+
+
             return View(doctorModel);
+        }
+
+        // GET: Doctor/AddProcedure
+        public ActionResult AddProcedure(int doctorId, string procedureName)
+        {
+            DoctorModel doctor = db.DoctorModels.Find(doctorId);
+            ProcedureModel procedure = db.ProcedureModels.SingleOrDefault(x => x.Name == procedureName);
+
+            DoctorsAndProceduresModel model = new DoctorsAndProceduresModel()
+            {
+                Doctor = doctor,
+                Procedure = procedure
+            };
+
+            db.DoctorsAndProceduresModel.Add(model);
+            db.SaveChanges();
+
+            return RedirectToAction("Details", new {Id = doctorId});
         }
 
         // GET: Doctor/Create
         public ActionResult Create()
         {
-            var procedures = db.ProcedureModels.ToList();
-            ViewBag.Procedures = procedures;
+            DoctorModel doctor = new DoctorModel();
 
-            return View();
+            ICollection<ProcedureModel> Procedures = db.ProcedureModels.ToList();
+            IList<SelectListItem> items = new List<SelectListItem>();
+            foreach (var procedure in Procedures)
+            {
+                var tmp = new SelectListItem
+                {
+                    Value = procedure.Name,
+                    Text = procedure.Name
+                };
+                items.Add(tmp);
+            }
+
+            doctor.ProcedureListItems = items;
+
+            return View(doctor);
         }
 
         // POST: Doctor/Create
@@ -51,8 +101,15 @@ namespace BookHospitalService.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Category")] DoctorModel doctorModel)
         {
-            if (ModelState.IsValid)
+            (new RoleManagerService()).SetRole(Request, UserRolesConstantMoldel.RolePatient);
+
+            //if (ModelState.IsValid)
+            if (doctorModel.Category != null)
             {
+                string currentUserId = User.Identity.GetUserId();
+                ApplicationUser currentUser = db.Users.FirstOrDefault(x => x.Id == currentUserId);
+
+                doctorModel.User = currentUser;
                 db.DoctorModels.Add(doctorModel);
                 db.SaveChanges();
                 return RedirectToAction("Index");

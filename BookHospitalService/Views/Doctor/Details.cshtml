@@ -17,8 +17,32 @@
         <dd>
             @Html.DisplayFor(model => model.Category)
         </dd>
-
     </dl>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <span>Selected Procedures</span>
+            <ul>
+                @foreach (var procedure in @ViewBag.SelectedProcedures)
+                {
+                    <li>@procedure.Name (@procedure.Details)</li>
+                }
+            </ul>
+        </div>
+    
+        <div class="col-md-6">
+            <span>Select a Procedure</span>
+            <ul>
+                @foreach (var procedure in @ViewBag.AllProcedures)
+                {
+                    <li>
+                        <a href="/Doctor/AddProcedure?doctorId=@Model.Id&procedureName=@procedure.Name">@procedure.Name</a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+    
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |

@@ -49,12 +49,21 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -194,13 +203,40 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminPatientsController.cs" />
+    <Compile Include="Controllers\APIAvailabilityController.cs" />
+    <Compile Include="Controllers\APIDoctorController.cs" />
     <Compile Include="Controllers\CompleteProfileController.cs" />
     <Compile Include="Controllers\DoctorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PatientController.cs" />
     <Compile Include="Controllers\ProcedureController.cs" />
+    <Compile Include="Migrations\201907141237023_Booking.Availability.cs" />
+    <Compile Include="Migrations\201907141237023_Booking.Availability.Designer.cs">
+      <DependentUpon>201907141237023_Booking.Availability.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907141449377_DoctorProcedure.Update.cs" />
+    <Compile Include="Migrations\201907141449377_DoctorProcedure.Update.Designer.cs">
+      <DependentUpon>201907141449377_DoctorProcedure.Update.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907141718293_DoctorsAndProceduresMigration.cs" />
+    <Compile Include="Migrations\201907141718293_DoctorsAndProceduresMigration.Designer.cs">
+      <DependentUpon>201907141718293_DoctorsAndProceduresMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907152045254_BookingModel.RemovedDoctorProcedure.cs" />
+    <Compile Include="Migrations\201907152045254_BookingModel.RemovedDoctorProcedure.Designer.cs">
+      <DependentUpon>201907152045254_BookingModel.RemovedDoctorProcedure.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907152050414_PatientModel.BookingModelNotList.cs" />
+    <Compile Include="Migrations\201907152050414_PatientModel.BookingModelNotList.Designer.cs">
+      <DependentUpon>201907152050414_PatientModel.BookingModelNotList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AdminViewFilters.cs" />
+    <Compile Include="Models\AdminViewPatientsAndFilterModel.cs" />
+    <Compile Include="Models\AvailabilityFormat.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -224,17 +260,25 @@
     <Compile Include="Migrations\201907112056383_ApplicationUser.UserRole.Designer.cs">
       <DependentUpon>201907112056383_ApplicationUser.UserRole.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201907141212140_AvailabilityModel.cs" />
+    <Compile Include="Migrations\201907141212140_AvailabilityModel.Designer.cs">
+      <DependentUpon>201907141212140_AvailabilityModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AvailabilityModel.cs" />
+    <Compile Include="Models\AvailabitlityIntervalConstants.cs" />
     <Compile Include="Models\BookingModel.cs" />
     <Compile Include="Models\DoctorModel.cs" />
+    <Compile Include="Models\DoctorsAndProceduresModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\PatientModel.cs" />
+    <Compile Include="Models\PatientViewModel.cs" />
     <Compile Include="Models\ProcedureModel.cs" />
     <Compile Include="Models\UserRolesConstantMoldel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\RoleManagerService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -259,6 +303,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\Main.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -312,6 +357,8 @@
     <Content Include="Views\Doctor\Index.cshtml" />
     <Content Include="Views\CompleteProfile\Doctor.cshtml" />
     <Content Include="Views\CompleteProfile\Patient.cshtml" />
+    <Content Include="Views\AdminPatients\Details.cshtml" />
+    <Content Include="Views\AdminPatients\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -344,6 +391,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201907112056383_ApplicationUser.UserRole.resx">
       <DependentUpon>201907112056383_ApplicationUser.UserRole.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907141212140_AvailabilityModel.resx">
+      <DependentUpon>201907141212140_AvailabilityModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907141237023_Booking.Availability.resx">
+      <DependentUpon>201907141237023_Booking.Availability.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907141449377_DoctorProcedure.Update.resx">
+      <DependentUpon>201907141449377_DoctorProcedure.Update.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907141718293_DoctorsAndProceduresMigration.resx">
+      <DependentUpon>201907141718293_DoctorsAndProceduresMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907152045254_BookingModel.RemovedDoctorProcedure.resx">
+      <DependentUpon>201907152045254_BookingModel.RemovedDoctorProcedure.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907152050414_PatientModel.BookingModelNotList.resx">
+      <DependentUpon>201907152050414_PatientModel.BookingModelNotList.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

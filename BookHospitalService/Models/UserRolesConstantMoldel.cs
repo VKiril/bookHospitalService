@@ -9,5 +9,6 @@ namespace BookHospitalService.Models
     {
         public const string RoleDoctor = "doctor";
         public const string RolePatient = "patient";
+        public const string RoleAdmin = "admin";
     }
 }

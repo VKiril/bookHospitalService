@@ -11,7 +11,8 @@ namespace BookHospitalService.Models
         public int Id { get; set; }
 
         public virtual ApplicationUser User { get; set; }
-        public ICollection<BookingModel> Bookings { get; set; }
+
+        public BookingModel Booking { get; set; }
 
         [Required]
         public string FirstLastName { get; set; }
@@ -24,5 +25,6 @@ namespace BookHospitalService.Models
 
         [Required]
         public string Notices { get; set; }
+
     }
 }
